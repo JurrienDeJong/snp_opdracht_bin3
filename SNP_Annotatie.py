@@ -9,7 +9,7 @@ import sys
 import argparse
 from Bio import AlignIO
 
-test = 1
+test = 5
 
 def align(file_name):
     data = []
