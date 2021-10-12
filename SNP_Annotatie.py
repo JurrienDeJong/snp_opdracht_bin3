@@ -47,6 +47,7 @@ def dna_to_protein(sequence):
         for i in range(0, len(sequence), 3):
             codon = sequence[i:i + 3]
             protein_seq += table[codon]
+        print("Using protein sequence : {}".format(protein_seq))
         return protein_seq
     else:
         return sequence
@@ -60,33 +61,48 @@ def implement_snp(seq, pos, snp):
     else:
         raise Exception("This index does not exist"
                         " because the sequence is "
-                        "length: {}".format(len(seq)))
+                        "length: {}".format(len(seq) - 1))
     return sequence
 
 
 def get_align_score(msa, snp_seq):
-    score = []
+    scores = []
     aligner = Align.PairwiseAligner()
-    for x in range(0, len(msa)):
-        alignments = aligner.align(msa[x], )
-        score.append(alignments.score)
-    return score
+    for x in range(0, len(snp_seq)):
+        for seq in msa:
+            alignments = aligner.align(seq[x], snp_seq[x])
+            scores.append(alignments.score)
 
+    added_scores = [sum(scores[x:x+20]) for x in range(0, len(snp_seq) * len(msa), 20)]
+    return added_scores
+
+
+def write_results(scores, pos):
+    message = "Your score is not valid!"
+    if scores[pos] <= 2:
+        message = "So this is a pretty bad SNP, it has a lot of consequences!\n" \
+                  "The AA might be pretty preserved!"
+    if 2 < scores[pos] <= 7:
+        message = "So this SNP has some bad affects, but is not terrible."
+    if 7 < scores[pos] <= 13:
+        message = "So the SNP has very few bad effect."
+    if scores[pos] > 13:
+        message = "So this SNP has a neutral effect! :)"
+    print("Severity of SNP at pos: {}, has score: {}.\n{}"
+          .format(pos, scores[pos], message))
 
 
 def main(arguments):
+    print("\n\n\n- Starting Program -\n")
     msa = read_file(arguments.in_file)
     protein_seq = dna_to_protein(arguments.Sequence)
     snp_seq = implement_snp(protein_seq,
                             arguments.SNP_Pos,
                             arguments.SNP)
 
-    # Append the sequence with the SNP
-    # to the msa for comparison
-    msa.append(snp_seq)
-
-    score = get_align_score(msa)
-    print(score)
+    scores = get_align_score(msa, snp_seq)
+    write_results(scores, arguments.SNP_Pos)
+    print("\n- End of Program -")
     return 0
 
 
