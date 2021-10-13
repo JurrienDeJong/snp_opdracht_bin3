@@ -2,13 +2,13 @@ READ ME - snp_opdracht
 
 author: Jurrien de Jong
 date: 13-10-2021
-files: SNP_Annotation.py, seq.txt, data.msf
+files: snp_annotation.py, seq.txt, data.msf
 
 Quick Note:
 	If you are looking for some test data, you can find it at the usage section!
 
 Description of the code:
-	The program SNP_Annotation.py will handle a few input arguments:
+	The program snp_annotation.py will handle a few input arguments:
     -i : Input file in .msf ( so the MSA alignment )
     -seq : The sequence ( DNA or Protein ) to be aligned with the MSA
     -pos : The position in the above sequence where a SNP needs to be implemented
@@ -19,7 +19,7 @@ Usage:
 	Please open your terminal and head to the folder containing the files, if you cannot get to it
 	please visit the links in the support section.
 
-	SNP_Annotation.py can be run with the following syntax:
+	snp_annotation.py can be run with the following syntax:
 
 	python3 SNP_Annotation.py -i [input file in .msf format ] -seq [.txt file with a sequence] -pos [position of SNP] -snp [SNP as a string]
 	
