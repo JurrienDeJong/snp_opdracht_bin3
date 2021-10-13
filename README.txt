@@ -1,14 +1,10 @@
 READ ME - snp_opdracht
 
 author: Jurrien de Jong
-
 date: 13-10-2021
-
 files: snp_annotation.py, data.msf
 
-
 Quick Note:
-
 	If you are looking for some test data, you can find it at the usage section!
 
 Description of the code:
@@ -30,7 +26,7 @@ Usage:
 	please visit the links in the support section.
 
 	snp_annotation.py can be run with the following syntax:
-
+	
 	python3 SNP_Annotation.py -i [input file in .msf format ] -seq [.txt file with a sequence] -pos [position of SNP] -snp [SNP as a string]
 	
   Here are a few examples:
