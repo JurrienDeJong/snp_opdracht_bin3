@@ -1,10 +1,14 @@
 READ ME - snp_opdracht
 
 author: Jurrien de Jong
+
 date: 13-10-2021
+
 files: snp_annotation.py, seq.txt, data.msf
 
+
 Quick Note:
+
 	If you are looking for some test data, you can find it at the usage section!
 
 Description of the code:
