@@ -1,8 +1,7 @@
 #!/bin/usr/python 3
 
 """
-69
-Nice
+t.b.a.
 """
 
 __author__ = "Jurrien de Jong"
@@ -27,14 +26,17 @@ class SnpAnnotation:
     def read_file(self):
         """
 
-        Function which reads a .msf file with
+        Function which reads a .msf file
 
         :param file_name:
         :return:
         """
         if self.file.endswith(".msf"):
             alignment = AlignIO.read(open(self.file), "msf")
-            return alignment
+
+            # Get the length of the column
+            column_len = len(alignment[:, 1])
+            return alignment, column_len
         else:
             raise Exception("An incorrect filetype is given."
                             " Please hand over a .msf file")
@@ -65,8 +67,8 @@ class SnpAnnotation:
             'GGA': 'G', 'GGC': 'G', 'GGG': 'G', 'GGT': 'G',
             'TCA': 'S', 'TCC': 'S', 'TCG': 'S', 'TCT': 'S',
             'TTC': 'F', 'TTT': 'F', 'TTA': 'L', 'TTG': 'L',
-            'TAC': 'Y', 'TAT': 'Y', 'TAA': '_', 'TAG': '_',
-            'TGC': 'C', 'TGT': 'C', 'TGA': '_', 'TGG': 'W',
+            'TAC': 'Y', 'TAT': 'Y', 'TAA': '-', 'TAG': '-',
+            'TGC': 'C', 'TGT': 'C', 'TGA': '-', 'TGG': 'W',
         }
 
         # Check if it is a DNA seq
@@ -100,7 +102,7 @@ class SnpAnnotation:
                             "length: {}".format(len(self.seq) - 1))
         return sequence
 
-    def get_align_score(self, alignment, snp_seq):
+    def get_align_score(self, alignment, snp_seq, column_len):
         """
 
         Function that takes an alignment and a sequence with an implemented,
@@ -108,37 +110,46 @@ class SnpAnnotation:
 
         :param alignment:
         :param snp_seq:
+        :param column_len:
         :return:
         """
         scores = []
         aligner = Align.PairwiseAligner()
         for x in range(0, len(snp_seq)):
-            alignments = aligner.align(alignment[:, x], snp_seq)
-            scores.append(round(((alignments.score / len(snp_seq)) * 100), 2))
+            alignments = aligner.align(alignment[:, x], snp_seq[x] * column_len)
+            scores.append(alignments.score)
         return scores
 
-    def write_results(self, percentage):
+    def write_results(self, score, column_len):
         """
 
         Function that takes percentage scores and a position
         and writes the corresponding message.
 
-        :param percentage:
-        :param pos:
+        :param score:
+        :param column_len:
         :return:
         """
         message = "Your score is not valid!"
-        if percentage[self.pos] <= 10:
+        if score[self.pos] <= 0.1 * column_len:
+
+            # Lower or equal to 10% similarity
             message = "So this is a pretty bad SNP, it has a lot of consequences!\n" \
                       "The AA might be pretty preserved!"
-        if 10 < percentage[self.pos] <= 40:
+        if 0.1 * column_len < score[self.pos] <= 0.4 * column_len:
+
+            # Between 10- and 40% similarity
             message = "So this SNP has some bad affects, but is not terrible."
-        if 40 < percentage[self.pos] <= 70:
+        if 0.4 * column_len < score[self.pos] <= 0.8 * column_len:
+
+            # Between 40- and 80% similarity
             message = "So the SNP has very few bad effect."
-        if percentage[self.pos] > 70:
+        if score[self.pos] > 0.8 * column_len:
+
+            # Higher than 80% similarity
             message = "So this SNP has a neutral effect! :)"
-        print("Severity of SNP at pos: {}, has percentage score: {} %.\n{}"
-              .format(self.pos, percentage[self.pos], message))
+        print("Severity of SNP at pos: {}, has score: {} / {}.\n{}"
+              .format(self.pos, score[self.pos], column_len, message))
 
 
 def main(arguments):
@@ -147,13 +158,16 @@ def main(arguments):
     :param arguments:
     :return:
     """
-    print("\n\n\n- Starting Program -\n")
+    print("\n- Starting Program -\n")
+
+    # create a SNP Annotation object
     x = SnpAnnotation(arguments.in_file, arguments.Sequence, arguments.SNP_Pos, arguments.SNP)
-    alignment = x.read_file()
+
+    alignment, column_len = x.read_file()
     x.dna_to_protein()
     snp_seq = x.implement_snp()
-    score = x.get_align_score(alignment, snp_seq)
-    x.write_results(score)
+    score = x.get_align_score(alignment, snp_seq, column_len)
+    x.write_results(score, column_len)
     print("\n- End of Program -")
     return 0
 
