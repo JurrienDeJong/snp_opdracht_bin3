@@ -26,8 +26,11 @@ Usage:
   Here are a few examples:
 
   python3 SNP_Annotation.py -i data.msf -seq -pos 0 "A"
+  
   python3 SNP_Annotation.py -i data.msf -seq -pos 0 "M"
+  
   python3 SNP_Annotation.py -i data.msf -seq -pos  "A"
+  
 
 Support:
 	Please view these pages if you are having trouble with cd, running the command or classes
