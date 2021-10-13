@@ -24,8 +24,8 @@ Usage:
 	SNP_Annotation.py can be run with the following syntax:
 
 	python3 SNP_Annotation.py -i [input file in .msf format ] -seq [.txt file with a sequence] -pos [position of SNP] -snp [SNP as a string]
-
-	Here are a few examples:
+	
+  Here are a few examples:
 
   python3 SNP_Annotation.py -i data.msf -seq -pos 0 "A"
   python3 SNP_Annotation.py -i data.msf -seq -pos 0 "M"
@@ -34,7 +34,9 @@ Usage:
 Support:
 	Please view these pages if you are having trouble with cd, running the command or classes
 	https://docs.python.org/3/tutorial/classes.html
+	
 	https://linuxize.com/post/linux-cd-command/
+	
 	https://realpython.com/run-python-scripts/
   
   For further questions, please send me an email:
