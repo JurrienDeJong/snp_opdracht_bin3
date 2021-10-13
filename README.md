@@ -19,8 +19,6 @@ Usage:
 	Please open your terminal and head to the folder containing the files, if you cannot get to it
 	please visit the links in the support section.
 
-	------------------------------------------
-
 	SNP_Annotation.py can be run with the following syntax:
 
 	python3 SNP_Annotation.py -i [input file in .msf format ] -seq [.txt file with a sequence] -pos [position of SNP] -snp [SNP as a string]
