@@ -4,7 +4,7 @@ author: Jurrien de Jong
 
 date: 13-10-2021
 
-files: snp_annotation.py, seq.txt, data.msf
+files: snp_annotation.py, data.msf
 
 
 Quick Note:
