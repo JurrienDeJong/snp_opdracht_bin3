@@ -25,15 +25,16 @@ Usage:
 	
   Here are a few examples:
 
-  python3 SNP_Annotation.py -i data.msf -seq -pos 0 "A"
+  python3 snp_annotation.py -i data.msf -seq "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVN
+ALAHKYH" -pos 0 "A"
   
-  python3 SNP_Annotation.py -i data.msf -seq -pos 0 "M"
-  
-  python3 SNP_Annotation.py -i data.msf -seq -pos  "A"
-  
+  python3 snp_annotation.py -i data.msf -seq "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVN
+ALAHKYH" -pos 0 "M"
 
 Support:
 	Please view these pages if you are having trouble with cd, running the command or classes
+	
+	
 	https://docs.python.org/3/tutorial/classes.html
 	
 	https://linuxize.com/post/linux-cd-command/
