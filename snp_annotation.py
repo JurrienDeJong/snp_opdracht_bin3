@@ -17,13 +17,12 @@ from Bio import Align
 
 class SnpAnnotation:
 
-    def __init__(self, file, seq, pos, snp):
+    def __init__(self, file, pos, snp):
         self.file = file
-        self.seq = seq
         self.pos = pos
         self.snp = snp
 
-    def read_file(self):
+    def read_data(self):
         """
 
         Function which reads a .msf file
@@ -41,7 +40,7 @@ class SnpAnnotation:
             raise Exception("An incorrect filetype is given."
                             " Please hand over a .msf file")
 
-    def dna_to_protein(self):
+    def dna_to_protein(self, sequence):
         """
         Function which translates DNA to Protein if a DNA
         sequence is given.
@@ -71,16 +70,11 @@ class SnpAnnotation:
             'TGC': 'C', 'TGT': 'C', 'TGA': '-', 'TGG': 'W',
         }
 
-        # Check if it is a DNA seq
-        if not re.match("[BDEFHIJKLMNOPQRSUVWXYZ]", self.seq):
-            for i in range(0, len(self.seq), 3):
-                codon = self.seq[i:i + 3]
-                protein_seq += table[codon]
-            print("Using protein sequence : {}".format(protein_seq))
-            return protein_seq
-        else:
-            # If it is a protein seq, return it.
-            return self.seq
+        for i in range(0, len(sequence), 3):
+            codon = sequence[i:i + 3]
+            protein_seq += table[codon]
+        print("Using protein sequence : {}".format(protein_seq))
+        return protein_seq
 
     def implement_snp(self):
         """
@@ -161,10 +155,10 @@ def main(arguments):
     print("\n- Starting Program -\n")
 
     # create a SNP Annotation object
-    x = SnpAnnotation(arguments.in_file, arguments.Sequence, arguments.SNP_Pos, arguments.SNP)
+    x = SnpAnnotation(arguments.in_file, arguments.SNP_Pos, arguments.SNP)
 
-    alignment, column_len = x.read_file()
-    x.dna_to_protein()
+    alignment, column_len = x.read_data()
+    x.dna_to_protein(sequence)
     snp_seq = x.implement_snp()
     score = x.get_align_score(alignment, snp_seq, column_len)
     x.write_results(score, column_len)
