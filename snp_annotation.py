@@ -67,15 +67,8 @@ class SnpAnnotation:
             raise Exception("SNP should be a nucleotide: A,C,T or G")
         if self.pos in range(0, len(sequence)):
 
-            # Create variables to easily get the first till the last
-            # element of a codon. This also increases readability.
-            first = self.pos
-            last = self.pos + 3
-
             # Store the old_seq part for comparison
-            old_seq = sequence[first:last]
             snp_seq = sequence[:self.pos] + self.snp + sequence[self.pos + 1:]
-            F"Codon change for pos {self.pos}:\n{old_seq}\n| ... changed to ... |\n{snp_seq[first:last]}\n"
         else:
             raise Exception(F"This index does not exist because the sequence is length: "
                             F"{(len(sequence) - 1)}")
@@ -170,8 +163,8 @@ class SnpAnnotation:
 
             # Higher than 80% similarity
             message = "So this SNP has a neutral effect!"
-        F"Severity of SNP at pos: {self.pos}, has score: {score[corrected_pos]} / {column_len}.\n{message}"
-
+        print(F"Severity of SNP at pos: {self.pos}, has score:"
+              F" {score[corrected_pos]} / {column_len}.\n{message}")
 
 
 def main(args):
