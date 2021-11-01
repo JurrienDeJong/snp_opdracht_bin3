@@ -37,7 +37,10 @@ class SnpAnnotation:
 
         :return alignment, column_len:
         """
-        alignment = AlignIO.read(open(self.file), "msf")
+        if self.file.endswith(".msf"):
+            alignment = AlignIO.read(open(self.file), "msf")
+        else:
+            return Exception("\nPlease hand over a file with a .msf format!")
 
         # Get the length of the column
         column_len = len(alignment[:, 1])
@@ -61,16 +64,16 @@ class SnpAnnotation:
 
         # SNP len can only be 1
         if len(self.snp) > 1 or len(self.snp) < 0:
-            raise Exception("SNP should be one char long")
+            raise Exception("\nSNP should be one char long")
         # The SNP must be a nucleotide
         if self.snp not in "ACTG":
-            raise Exception("SNP should be a nucleotide: A,C,T or G")
+            raise Exception("\nSNP should be a nucleotide: A,C,T or G")
         if self.pos in range(0, len(sequence)):
 
-            # Store the old_seq part for comparison
+            # Put the snp in the correct position
             snp_seq = sequence[:self.pos] + self.snp + sequence[self.pos + 1:]
         else:
-            raise Exception(F"This index does not exist because the sequence is length: "
+            raise Exception(F"\nThis index does not exist because the sequence is length: "
                             F"{(len(sequence) - 1)}")
 
         return snp_seq
@@ -125,8 +128,8 @@ class SnpAnnotation:
         scores = []
         aligner = Align.PairwiseAligner()
         for element in range(0, len(snp_seq)):
-            alignments = aligner.align\
-                (alignment[:, element], snp_seq[element] * column_len)
+            alignments = aligner.align(alignment[:, element],
+                                       snp_seq[element] * column_len)
             scores.append(alignments.score)
         return scores
 
